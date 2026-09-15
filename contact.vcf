@@ -1,8 +1,9 @@
 BEGIN:VCARD
 VERSION:3.0
-N:Stoll;Thomas;J.;;
-FN:Thomas J. Stoll
+N:Stoll;Thomas;;;
+FN:Thomas Stoll
 TEL;TYPE=CELL,VOICE:+17165310903
-EMAIL:tomstoll@med.umich.edu
+EMAIL;type=HOME:thojstoll@gmail.com
+EMAIL;type=WORK:tomstoll@med.umich.edu
 URL:https://tjstoll.com
 END:VCARD
