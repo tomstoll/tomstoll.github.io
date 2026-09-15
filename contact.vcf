@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Stoll;Thomas;J.;;
+FN:Thomas J. Stoll
+ORG:University of Michigan;Maddox Laboratory
+TITLE:Postdoctoral Research Fellow
+TEL;TYPE=CELL,VOICE:+17165310903
+EMAIL;TYPE=PREF,INTERNET:tomstoll@med.umich.edu
+URL:https://tjstoll.com
+NOTE:Auditory Neuroscience, Biosignal Processing, Machine Learning
+END:VCARD

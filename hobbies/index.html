@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Side Projects & Making | Thomas J. Stoll</title>
+  <meta name="description"
+    content="Maker projects, craft, and physical builds by Thomas J. Stoll — Blacksmithing, woodworking, 3D printing, and electronics." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Side Projects & Making - Thomas J. Stoll" />
+  <meta property="og:description" content="Blacksmithing, Woodworking, 3D Printing, Electronics, and Art." />
+  <meta property="og:url" content="https://tjstoll.com/hobbies/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Tailwind CSS CDN configured with media-query dark mode -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- External Side Projects Data Source -->
+  <script src="../data/hobbies.js"></script>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 antialiased font-sans transition-colors duration-200">
+
+  <!-- ================================================================= -->
+  <!-- Page Logic & Lightbox Controller                                  -->
+  <!-- ================================================================= -->
+  <script>
+    // Detect if running locally from filesystem (file://) or hosted on a web server
+    const isLocal = window.location.protocol === "file:";
+
+    function getHobbyProjects() {
+      if (typeof HOBBY_PROJECTS !== "undefined" && Array.isArray(HOBBY_PROJECTS)) {
+        return HOBBY_PROJECTS;
+      }
+      if (typeof window !== "undefined" && window.HOBBY_PROJECTS && Array.isArray(window.HOBBY_PROJECTS)) {
+        return window.HOBBY_PROJECTS;
+      }
+      return [];
+    }
+
+    function getHobbyConfig() {
+      if (typeof HOBBY_PAGE_CONFIG !== "undefined" && HOBBY_PAGE_CONFIG) {
+        return HOBBY_PAGE_CONFIG;
+      }
+      if (typeof window !== "undefined" && window.HOBBY_PAGE_CONFIG) {
+        return window.HOBBY_PAGE_CONFIG;
+      }
+      return {
+        pageTitle: "Side Projects",
+        pageSubtitle: "Craft, physical fabrication, and creative exploration away from neural modeling and biosignals.",
+        backLinkText: "Back to Research"
+      };
+    }
+
+    let currentFilter = "All";
+    let activeModalIndex = null;
+
+    const categoryIcons = {
+      "Blacksmithing": "flame",
+      "Woodworking": "hammer",
+      "3D Printing": "box",
+      "Maker / Electronics": "cpu",
+      "Painting": "palette",
+      "Other": "sparkles"
+    };
+
+    function renderGallery(filter = "All") {
+      const container = document.getElementById("gallery-grid");
+      if (!container) return;
+
+      const projectsList = getHobbyProjects();
+      const filtered = filter === "All"
+        ? projectsList
+        : projectsList.filter(p => p.category === filter);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-400 dark:text-slate-500">
+            <i data-lucide="package-open" class="w-10 h-10 mx-auto mb-2 opacity-60"></i>
+            <p>No projects found in this category yet.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map(proj => {
+        const iconName = categoryIcons[proj.category] || "wrench";
+        const globalIndex = projectsList.findIndex(p => p.id === proj.id);
+
+        const visualMedia = proj.image
+          ? `<div class="w-full h-72 sm:h-80 overflow-hidden bg-slate-100 dark:bg-slate-950/60 cursor-pointer flex items-center justify-center p-2 relative" onclick="openLightbox(${globalIndex})">
+              <img src="${proj.image}" alt="${proj.title}" loading="lazy" class="w-full h-full object-contain group-hover:scale-105 transition duration-300 rounded-lg drop-shadow-sm select-none" />
+             </div>`
+          : `<div class="w-full h-72 sm:h-80 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800/80 dark:to-slate-900 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 group-hover:from-slate-200 group-hover:to-slate-300 dark:group-hover:from-slate-800 dark:group-hover:to-slate-850 transition">
+              <i data-lucide="${iconName}" class="w-10 h-10 mb-2 opacity-80 text-brand-500"></i>
+              <span class="text-xs uppercase tracking-wider font-mono">${proj.category}</span>
+            </div>`;
+
+        return `
+          <article class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700 transition flex flex-col justify-between">
+            <div>
+              <div class="border-b border-slate-100 dark:border-slate-800 relative">
+                ${visualMedia}
+                <span class="absolute top-3 right-3 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur text-slate-700 dark:text-slate-300 shadow-sm border border-slate-200/60 dark:border-slate-700/60 z-10">
+                  ${proj.year}
+                </span>
+              </div>
+              <div class="p-5 space-y-2">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-brand-600 dark:text-brand-400">
+                  <i data-lucide="${iconName}" class="w-3.5 h-3.5"></i>
+                  <span>${proj.category}</span>
+                </div>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition cursor-pointer" onclick="openLightbox(${globalIndex})">
+                  ${proj.title}
+                </h3>
+                <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-1">
+                  ${proj.description}
+                </p>
+              </div>
+            </div>
+            ${proj.image ? `
+              <div class="px-5 pb-4 pt-1">
+                <button onclick="openLightbox(${globalIndex})" class="inline-flex items-center gap-1 text-xs font-medium text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition">
+                  <span>View photo</span>
+                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                </button>
+              </div>
+            ` : ''}
+          </article>
+        `;
+      }).join("");
+
+      lucide.createIcons();
+    }
+
+    function setFilter(category) {
+      currentFilter = category;
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        const cat = btn.getAttribute("data-category");
+        if (cat === category) {
+          btn.className = "filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white shadow-sm transition";
+        } else {
+          btn.className = "filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition";
+        }
+      });
+      renderGallery(category);
+    }
+
+    function openLightbox(index) {
+      const projectsList = getHobbyProjects();
+      const proj = projectsList[index];
+      if (!proj || !proj.image) return;
+      activeModalIndex = index;
+
+      const modal = document.getElementById("lightbox-modal");
+      const img = document.getElementById("lightbox-img");
+      const title = document.getElementById("lightbox-title");
+      const category = document.getElementById("lightbox-category");
+      const desc = document.getElementById("lightbox-desc");
+      const year = document.getElementById("lightbox-year");
+
+      img.src = proj.image;
+      img.alt = proj.title;
+      title.textContent = proj.title;
+      category.textContent = proj.category;
+      desc.textContent = proj.description;
+      year.textContent = proj.year;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.classList.add("overflow-hidden");
+      lucide.createIcons();
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById("lightbox-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.classList.remove("overflow-hidden");
+      activeModalIndex = null;
+    }
+
+    // Keyboard support (Escape to close)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Set page variable texts
+      const config = getHobbyConfig();
+      document.querySelectorAll("[data-page-label]").forEach(el => {
+        const key = el.getAttribute("data-page-label");
+        if (config[key]) {
+          el.textContent = config[key];
+        }
+      });
+
+      // Adaptive home link: "../index.html" locally, "../" online
+      const backUrl = isLocal ? "../index.html" : "../";
+      document.querySelectorAll("[data-home-link]").forEach(el => {
+        el.setAttribute("href", backUrl);
+      });
+
+      // Initial render
+      renderGallery("All");
+      lucide.createIcons();
+    });
+  </script>
+
+  <!-- Sticky Minimal Header -->
+  <header
+    class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a data-home-link href="../" class="font-bold text-slate-900 dark:text-white tracking-tight text-lg hover:text-brand-600 dark:hover:text-brand-400 transition">
+        tjstoll.com
+      </a>
+      <a id="back-link" data-home-link href="../"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg shadow-sm transition">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400"></i>
+        <span data-page-label="backLinkText">Back to Research</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8 md:py-12 space-y-8">
+
+    <!-- Page Intro / Blurb Section -->
+    <section class="space-y-3 max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-900 dark:bg-amber-950/70 dark:text-amber-300 dark:border dark:border-amber-800/60">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
+        <span>Makerspace & Benchtop Craft</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <span data-page-label="pageTitle">Side Projects</span>
+      </h1>
+      <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed" data-page-label="pageSubtitle">
+        Craft, physical fabrication, and creative exploration away from neural modeling and biosignals.
+      </p>
+    </section>
+
+    <!-- Filter Pills / Organization -->
+    <section class="flex flex-wrap items-center gap-2 pt-2">
+      <button onclick="setFilter('All')" data-category="All"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white shadow-sm transition">
+        All Projects
+      </button>
+      <button onclick="setFilter('Blacksmithing')" data-category="Blacksmithing"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+        Blacksmithing
+      </button>
+      <button onclick="setFilter('Woodworking')" data-category="Woodworking"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+        Woodworking
+      </button>
+      <button onclick="setFilter('3D Printing')" data-category="3D Printing"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+        3D Printing
+      </button>
+      <button onclick="setFilter('Maker / Electronics')" data-category="Maker / Electronics"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+        Maker / Electronics
+      </button>
+      <button onclick="setFilter('Painting')" data-category="Painting"
+        class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+        Painting
+      </button>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
+      <!-- Injected dynamically by renderGallery() -->
+    </section>
+
+  </main>
+
+  <!-- Lightbox Modal for High-Resolution Photos -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6 md:p-8" onclick="if(event.target === this) closeLightbox()">
+    <div class="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in duration-200">
+      
+      <!-- Modal Close Button -->
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 z-10 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white backdrop-blur transition shadow-md">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Modal Image Viewer -->
+      <div class="relative bg-black flex items-center justify-center overflow-hidden max-h-[62vh] min-h-[260px]">
+        <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[62vh] w-auto h-auto object-contain select-none" />
+      </div>
+
+      <!-- Modal Info Details -->
+      <div class="p-5 md:p-6 overflow-y-auto space-y-2 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span id="lightbox-category" class="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400 font-mono"></span>
+          <span id="lightbox-year" class="text-xs font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"></span>
+        </div>
+        <h2 id="lightbox-title" class="text-xl font-bold text-slate-900 dark:text-white"></h2>
+        <p id="lightbox-desc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-1"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer
+    class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-16 py-8 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-5xl mx-auto px-4 space-y-2">
+      <p>© 2026 Thomas J. Stoll · <a data-home-link href="../" class="text-brand-600 dark:text-brand-400 hover:underline">tjstoll.com</a></p>
+      <p>Ann Arbor, Michigan</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

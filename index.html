@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thomas J. Stoll, Ph.D. | Auditory Neuroscience & Computational Modeling</title>
+  <meta name="description"
+    content="Portfolio of Thomas J. Stoll, Ph.D. - Postdoctoral Fellow specializing in deep learning, neural encoding, and auditory biosignal processing." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Thomas J. Stoll, Ph.D. - Portfolio" />
+  <meta property="og:description" content="Auditory Neuroscience, Deep Learning, and Biosignal Processing." />
+  <meta property="og:url" content="https://tjstoll.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Tailwind CSS CDN configured with media-query dark mode -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media', // Automatically matches OS/browser dark mode preferences
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- External Project & Publication Data -->
+  <script src="data/projects.js"></script>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 antialiased font-sans transition-colors duration-200">
+
+  <!-- ================================================================= -->
+  <!-- SINGLE SOURCE OF TRUTH: Edit your profile links & labels here     -->
+  <!-- ================================================================= -->
+  <script>
+    // Detect if running locally from filesystem (file://) or hosted on a web server
+    const isLocal = window.location.protocol === "file:";
+
+    const SITE_LINKS = {
+      email: "tomstoll@med.umich.edu",
+      linkedin: "https://www.linkedin.com/in/thomas-stoll",
+      github: "https://github.com/tomstoll",
+      scholar: "https://scholar.google.com/citations?user=wQjb1rsAAAAJ&hl=en",
+      cv: "CV.pdf",
+      vcard: "contact.vcf",
+      sideProjects: isLocal ? "hobbies/index.html" : "hobbies/",
+      sideProjectsLabel: "Side Projects" // Edit label here to update all instances
+    };
+
+    function renderProjectLinks(links) {
+      if (!links || !Array.isArray(links) || links.length === 0) return "";
+
+      const linkItems = links.map(link => {
+        let icon = link.icon;
+        if (!icon) {
+          const url = (link.url || "").toLowerCase();
+          const label = (link.label || "").toLowerCase();
+          if (url.includes("github.com") || label.includes("github")) {
+            icon = "github";
+          } else if (url.includes("pypi.org") || label.includes("pypi")) {
+            icon = "package";
+          } else if (url.includes("doi.org") || label.includes("paper") || label.includes("journal") || label.includes("plos") || label.includes("jaro") || label.includes("trends")) {
+            icon = "file-text";
+          } else if (label.includes("code")) {
+            icon = "code";
+          } else {
+            icon = "external-link";
+          }
+        }
+
+        const iconHtml = (icon === "github")
+          ? `<svg class="w-3.5 h-3.5 fill-current shrink-0 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2Z" /></svg>`
+          : `<i data-lucide="${icon}" class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400"></i>`;
+
+        return `
+          <a href="${link.url}" target="_blank" rel="noopener"
+            class="group inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-brand-600 dark:hover:text-brand-400 border border-slate-200/60 dark:border-slate-700/60 transition shadow-xs">
+            ${iconHtml}
+            <span>${link.label}</span>
+          </a>
+        `;
+      }).join("");
+
+      return `
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          ${linkItems}
+        </div>
+      `;
+    }
+
+    function renderFeaturedProject(proj) {
+      const container = document.getElementById("featured-project-container");
+      if (!container || !proj) return;
+
+      const highlightsHtml = proj.highlights.map(item => `<li>${item}</li>`).join("");
+      const tagsHtml = proj.tags.map(tag => `<span>${tag}</span>`).join('<span class="text-slate-300 dark:text-slate-700 select-none">·</span>');
+      const linksHtml = renderProjectLinks(proj.links);
+      const patentHtml = proj.patent ? `
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-900 dark:bg-amber-950/60 dark:text-amber-200 border border-amber-200/80 dark:border-amber-800/60 shadow-xs">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0"></i>
+            <span>${proj.patent}</span>
+          </span>
+        </div>
+      ` : '';
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+            Featured Research & Deep Learning
+          </h2>
+          <span class="text-xs font-semibold uppercase tracking-wider px-2.5 py-1 bg-brand-50 text-brand-700 dark:bg-brand-950/70 dark:text-brand-300 dark:border-brand-800/60 rounded-full border border-brand-200">
+            ${proj.badge}
+          </span>
+        </div>
+
+        <div class="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm space-y-4">
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+              ${proj.title}
+            </h3>
+            <p class="text-sm font-medium text-brand-600 dark:text-brand-400 mt-0.5">${proj.category}</p>
+          </div>
+
+          ${patentHtml}
+
+          <p class="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            ${proj.description}
+          </p>
+
+          <div class="p-4 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/80 rounded-xl space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Technical Highlights</p>
+            <ul class="text-xs md:text-sm text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+              ${highlightsHtml}
+            </ul>
+          </div>
+
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-mono flex flex-wrap items-center gap-x-2 gap-y-1 pt-1">
+            ${tagsHtml}
+          </div>
+
+          ${linksHtml}
+        </div>
+      `;
+    }
+
+    function renderCoreProjects(projects) {
+      const container = document.getElementById("core-projects-grid");
+      if (!container || !projects) return;
+
+      const themeClasses = {
+        brand: "text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/60",
+        emerald: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60",
+        purple: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60",
+        amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60",
+        slate: "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800"
+      };
+
+      container.innerHTML = projects.map(proj => {
+        const badgeColor = themeClasses[proj.categoryTheme] || themeClasses.brand;
+        const tagsHtml = proj.tags.map(tag => `<span>${tag}</span>`).join('<span class="text-slate-300 dark:text-slate-700 select-none">·</span>');
+        const linksHtml = renderProjectLinks(proj.links);
+
+        return `
+          <div class="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <span class="text-xs font-semibold ${badgeColor} px-2 py-0.5 rounded">${proj.category}</span>
+              <h3 class="font-bold text-slate-900 dark:text-white text-base">${proj.title}</h3>
+              <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                ${proj.description}
+              </p>
+            </div>
+            <div class="space-y-2.5">
+              <div class="text-xs text-slate-500 dark:text-slate-400 font-mono flex flex-wrap items-center gap-x-2 gap-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
+                ${tagsHtml}
+              </div>
+              ${linksHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderPublications(pubs) {
+      const container = document.getElementById("publications-list");
+      if (!container || !pubs) return;
+
+      container.innerHTML = pubs.map(pub => `
+        <div class="p-4 hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition">
+          <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            ${pub.title}
+          </p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <strong>${pub.authors}</strong> (${pub.year})
+          </p>
+          <a href="${pub.url}" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 font-medium hover:underline mt-1.5">
+            ${pub.journal} · DOI: ${pub.doi} <i data-lucide="external-link" class="w-3 h-3"></i>
+          </a>
+        </div>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Automatically populates all text elements with data-label
+      document.querySelectorAll("[data-label]").forEach(el => {
+        const key = el.getAttribute("data-label");
+        if (SITE_LINKS[key]) {
+          el.textContent = SITE_LINKS[key];
+        }
+      });
+
+      // Automatically populates all anchors with data-link attributes
+      document.querySelectorAll("[data-link]").forEach(el => {
+        const key = el.getAttribute("data-link");
+        if (SITE_LINKS[key]) {
+          if (key === "email") {
+            el.setAttribute("href", `mailto:${SITE_LINKS[key]}`);
+          } else {
+            el.setAttribute("href", SITE_LINKS[key]);
+          }
+        }
+      });
+
+      // Render Dynamic Projects & Publications
+      if (typeof FEATURED_PROJECT !== "undefined") {
+        renderFeaturedProject(FEATURED_PROJECT);
+      }
+      if (typeof CORE_PROJECTS !== "undefined") {
+        renderCoreProjects(CORE_PROJECTS);
+      }
+      if (typeof PUBLICATIONS !== "undefined") {
+        renderPublications(PUBLICATIONS);
+      }
+
+      // Initialize icons after links attach and elements render
+      lucide.createIcons();
+    });
+  </script>
+
+  <!-- Sticky Minimal Header -->
+  <header
+    class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#" class="font-bold text-slate-900 dark:text-white tracking-tight text-lg">tjstoll.com</a>
+      <div class="flex items-center gap-2 md:gap-3">
+        <a data-link="sideProjects"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
+          <span data-label="sideProjectsLabel">Side Projects</span>
+        </a>
+        <a data-link="vcard" download
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 rounded-lg shadow-sm transition">
+          <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+          <span>Add Contact</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8 md:py-12 space-y-14">
+
+    <!-- Hero Section -->
+    <section class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
+      <div class="shrink-0">
+        <!-- Clean headshot without badge overlay -->
+        <img src="headshot.jpg" alt="Thomas J. Stoll"
+          onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'"
+          class="w-36 h-36 md:w-44 md:h-44 rounded-2xl object-cover shadow-md ring-1 ring-slate-200 dark:ring-slate-800" />
+      </div>
+
+      <div class="flex-1 text-center md:text-left space-y-3">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Thomas J. Stoll,
+            Ph.D.</h1>
+          <p class="text-brand-600 dark:text-brand-400 font-semibold text-base md:text-lg mt-1">
+            Postdoctoral Research Fellow · Maddox Lab, University of Michigan
+          </p>
+        </div>
+
+        <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed max-w-2xl">
+          Bridging computational auditory neuroscience, biosignal processing, and machine learning. Developing deep
+          learning models and electrophysiological tools to predict and understand auditory brain responses to speech.
+        </p>
+
+        <!-- Primary Action Row -->
+        <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-2.5">
+          <!-- <a data-link="vcard" download
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-brand-600 dark:hover:bg-brand-500 rounded-xl shadow hover:bg-slate-800 transition">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            Add Contact
+          </a> -->
+          <a data-link="cv" target="_blank"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+            <i data-lucide="file-text" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+            Download CV
+          </a>
+          <a data-link="email"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+            <i data-lucide="mail" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+            Email
+          </a>
+        </div>
+
+        <!-- Social / Academic Profile Links -->
+        <div class="pt-2 flex items-center justify-center md:justify-start gap-4 text-slate-500 dark:text-slate-400">
+
+          <!-- LinkedIn (Inline SVG) -->
+          <a data-link="linkedin" target="_blank" rel="noopener"
+            class="hover:text-brand-600 dark:hover:text-brand-400 transition p-1" title="LinkedIn"
+            aria-label="LinkedIn">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path
+                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.91 0-1.64.73-1.64 1.64s.73 1.64 1.64 1.64 1.64-.73 1.64-1.64-.73-1.64-1.64-1.64Z" />
+            </svg>
+          </a>
+
+          <!-- GitHub (Inline SVG) -->
+          <a data-link="github" target="_blank" rel="noopener"
+            class="hover:text-brand-600 dark:hover:text-brand-400 transition p-1" title="GitHub" aria-label="GitHub">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2Z" />
+            </svg>
+          </a>
+
+          <!-- Google Scholar (Lucide graduation-cap) -->
+          <a data-link="scholar" target="_blank" rel="noopener"
+            class="hover:text-brand-600 dark:hover:text-brand-400 transition p-1" title="Google Scholar"
+            aria-label="Google Scholar">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </a>
+
+          <span class="text-xs text-slate-400 dark:text-slate-500 font-mono pl-1">Ann Arbor, MI</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Flagship Work -->
+    <section id="featured-project-container" class="space-y-4">
+      <!-- Populated dynamically from data/projects.js -->
+    </section>
+
+    <!-- Project & Research Grid -->
+    <section class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+        Core Research & Engineering Projects
+      </h2>
+
+      <div id="core-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Populated dynamically from data/projects.js -->
+      </div>
+    </section>
+
+    <!-- Selected Publications -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Selected Publications</h2>
+        <!-- Automatically pulls from SITE_LINKS.scholar -->
+        <a data-link="scholar" target="_blank" rel="noopener"
+          class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+          Full Scholar Profile <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+
+      <div id="publications-list"
+        class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl divide-y divide-slate-100 dark:divide-slate-800 shadow-sm overflow-hidden">
+        <!-- Populated dynamically from data/projects.js -->
+      </div>
+    </section>
+
+    <!-- Technical Toolkit -->
+    <section class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white">Core Technical Competencies</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl space-y-2">
+          <h3 class="font-semibold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="cpu" class="w-4 h-4 text-brand-600 dark:text-brand-400"></i> Machine Learning & DSP
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            PyTorch, Python (NumPy, SciPy), Digital Signal Processing (DSP), Deconvolution & Temporal Response Functions
+            (TRF), Neural Regression, Digital Filtering, High-Performance Computing (Linux / Slurm).
+          </p>
+        </div>
+
+        <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl space-y-2">
+          <h3 class="font-semibold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="activity" class="w-4 h-4 text-brand-600 dark:text-brand-400"></i> Neurotech & Biosignals
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            Electroencephalography (EEG), Electrocochleography (ECochG), Auditory Brainstem Response (ABR / pABR),
+            Auditory Evoked Potentials, Psychophysics, Continuous Speech Tracking & Decoding.
+          </p>
+        </div>
+
+        <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl space-y-2">
+          <h3 class="font-semibold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="wrench" class="w-4 h-4 text-brand-600 dark:text-brand-400"></i> Hardware & Prototyping
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            Electrode Fabrication, Rapid Prototyping (CAD & 3D Printing), Custom Sensor Design, Custom Sensor & Tool
+            Fabrication, Soldering & Bench Electronics, Audio Equipment Calibration.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Floating Bottom Bar -->
+  <div
+    class="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 flex md:hidden items-center justify-between gap-3 z-40">
+    <a data-link="vcard" download
+      class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl shadow-sm transition">
+      <i data-lucide="user-plus" class="w-4 h-4"></i>
+      <span>Add Contact</span>
+    </a>
+    <a data-link="cv" target="_blank"
+      class="flex items-center justify-center gap-1.5 py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium text-sm rounded-xl border border-slate-200 dark:border-slate-700">
+      <i data-lucide="file-text" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+      <span>CV</span>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer
+    class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 mt-12 py-8 text-center text-xs text-slate-500 dark:text-slate-400 pb-20 md:pb-8">
+    <div class="max-w-4xl mx-auto px-4 space-y-2">
+      <p>© 2026 Thomas J. Stoll, Ph.D. Hosted via GitHub Pages on <a href="https://tjstoll.com"
+          class="text-brand-600 dark:text-brand-400 font-medium">tjstoll.com</a></p>
+      <p>
+        <a data-link="sideProjects" class="hover:underline text-brand-600 dark:text-brand-400 font-medium">
+          <span data-label="sideProjectsLabel">Side Projects</span>
+        </a>
+        · Ann Arbor, Michigan · Maddox Laboratory
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
