@@ -59,7 +59,7 @@ const CORE_PROJECTS = [
   },
   {
     category: "Sensory Systems",
-    categoryTheme: "brand",
+    categoryTheme: "amber",
     title: "Exploring Attention in the Auditory Brainstem",
     description: "Through three experiments, I demonstrated that subcortical speech encoding is not affected by selective auditory attention. This work utilized novel deconvolution tools developed in our lab alongside custom-fabricated eardrum electrodes to reliably extract canonical auditory brainstem responses to continuous speech.",
     tags: [
