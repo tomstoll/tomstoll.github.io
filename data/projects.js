@@ -18,11 +18,11 @@ const FEATURED_PROJECT = {
   title: "Individualizable Deep Neural Networks for Predicting Continuous EEG in Response to Audio",
   category: "Computational Neuroscience & Machine Learning",
   patent: "Patent Pending · U.S. Prov. App. 63/986,368 (2026)",
-  description: "I am developing an end-to-end deep learning framework to predict continuous human electroencephalography (EEG) directly from acoustic waveforms. The model incorporates subject conditioning to capture individual variability in neural morphologies and simulate the effects of age, sex, and hearing impairment.",
+  description: "I am developing an end-to-end deep learning framework to predict continuous human EEG signals directly from acoustic waveforms. The model learns a shared latent representation that can be projected to arbitrary electrode montages, while predicted responses are modulated by both learned subject embeddings (capturing individual neural variability) and explicit conditioning on known demographic factors (such as age, sex, and hearing ability).",
   highlights: [
-    "End-to-end neural regression from acoustic waveforms to continuous scalp voltages.",
-    "Subject conditioning allowing for integration of relatively brief recordings across many subjects.",
-    "Direct utility in personalized hearing aid algorithms, in silico experimentation, and auditory diagnostics."
+    "<strong>Waveform-to-voltage modeling</strong>: Bypasses hand-selected acoustic features to predict multi-channel scalp potentials at sub-millisecond temporal resolution, spanning the auditory pathway from the periphery through the cortex.",
+    "<strong>Heterogeneous data integration</strong>: Enables aggregating recordings across diverse subject populations and experimental paradigms into a single unified model while preserving subject-specific response characteristics.",
+    "<strong>Translational applications</strong>: Provides a foundation for personalized hearing aid algorithms, <i>in silico</i> experimentation, and objective auditory diagnostics."
   ],
   tags: [
     "PyTorch",
