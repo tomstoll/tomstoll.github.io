@@ -15,7 +15,6 @@
  */
 
 const FEATURED_PROJECT = {
-  badge: "Current Focus",
   title: "Individualizable Deep Neural Networks for Predicting Continuous EEG in Response to Audio",
   category: "Computational Neuroscience & Machine Learning",
   patent: "Patent Pending · U.S. Prov. App. 63/986,368 (2026)",
@@ -38,7 +37,7 @@ const FEATURED_PROJECT = {
 const CORE_PROJECTS = [
   {
     category: "Electrophysiology & Modeling",
-    categoryTheme: "brand", // options: brand, emerald, purple, amber, slate
+    categoryTheme: "emerald", // options: brand, blue, emerald, purple, amber, rose, indigo
     title: "Enhanced Place Specificity of the pABR",
     description: "Using both computational modeling and human electrophysiological recordings, I demonstrated that the parallel auditory brainstem response (pABR), which reduces test times, also improves place specificity on the cochlea.",
     tags: [
@@ -77,7 +76,7 @@ const CORE_PROJECTS = [
   },
   {
     category: "Hardware & Prototyping",
-    categoryTheme: "emerald",
+    categoryTheme: "rose",
     title: "Custom Biosignal Hardware & Electrode Fabrication",
     description: "Designed custom laboratory tooling, 3D-printed fixtures, and fabricated specialized tympanic membrane electrodes (following Simpson et al.) to facilitate experiments and improve recording quality.",
     tags: [

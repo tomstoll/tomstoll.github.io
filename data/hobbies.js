@@ -4,6 +4,10 @@
  * Edit this file to add, edit, or reorganize your side projects gallery
  * without having to touch any HTML code.
  * 
+ * Note: Projects are automatically displayed in reverse order of `id`
+ * (highest / newest id first). To add a new project, simply append it
+ * to the bottom of HOBBY_PROJECTS with the next incrementing id (e.g. id: 16).
+ * 
  * Fields for each item:
  * - id: Unique number or identifier
  * - title: Name of the project or piece
@@ -14,35 +18,35 @@
  */
 
 var HOBBY_PAGE_CONFIG = {
-  pageTitle: "Side Projects",
-  pageSubtitle: "Projects and hobbies I've worked on outside of my research (when I remember to take pictures).",
+  pageTitle: "Beyond the Lab",
+  pageSubtitle: "A showcase of things I've built, forged, crafted, and actually remembered to photograph!",
   backLinkText: "Back to Research"
 };
 
 var HOBBY_PROJECTS = [
   {
     id: 1,
-    title: "Hand-Forged Knives",
-    category: "Blacksmithing",
-    year: "2025",
-    description: "Shaped at the anvil, refined and sharpened on belt grinders, and heat-treated using a coal forge. Made during a blacksmithing workshop at the Michigan Folk School.",
-    image: "images/knives.jpg"
+    title: "Wearable Eye-Tracking Glasses",
+    category: "Maker / Electronics",
+    year: "2018",
+    description: "Biomedical engineering capstone project: designed, printed, and assembled a low-cost, wearable, lensless-glasses system with integrated camera and LED for real-time pupillometry to assess locked-in syndrome.",
+    image: "images/senior_design.jpeg"
   },
   {
     id: 2,
-    title: "Forged Steel Bottle Opener",
-    category: "Blacksmithing",
-    year: "2026",
-    description: "Bottle opener with drawn tapered handle, punched and drifted eye ring, and my maker's touchmark stamp.",
-    image: "images/bottle_opener.jpg"
+    title: "Acoustic Alignment & Speaker Mount",
+    category: "3D Printing",
+    year: "2019",
+    description: "Rotation project: Custom-modeled and 3D printed fixture designed to align KEF coaxial speakers using integrated laser pointers.",
+    image: "images/speaker_aligner.jpg"
   },
   {
     id: 3,
-    title: "Hand-Forged Steel Rose Sculpture",
+    title: "Forged Double Wall Hook",
     category: "Blacksmithing",
-    year: "2023",
-    description: "Floral centerpiece with textured and shaped rose petals mounted on an organic stem with leaves, a candle holder, and a scrolled tripod base. Made at the Rochester Arc and Flame Center.",
-    image: "images/flower_centerpiece.jpg"
+    year: "2021",
+    description: "Simple hand-forged double wall hook featuring scrolled tips, punched countersunk mounting holes, and a traditional boiled linseed oil finish.",
+    image: "images/hook.jpg"
   },
   {
     id: 4,
@@ -54,22 +58,6 @@ var HOBBY_PROJECTS = [
   },
   {
     id: 5,
-    title: "Treble Clef Wall Hook",
-    category: "Blacksmithing",
-    year: "2023",
-    description: "Hand-forged decorative wall hook in the shape of a treble clef.",
-    image: "images/music_hook.jpg"
-  },
-  {
-    id: 6,
-    title: "Forged Double Wall Hook",
-    category: "Blacksmithing",
-    year: "2021",
-    description: "Simple hand-forged double wall hook featuring scrolled tips, punched countersunk mounting holes, and a traditional blackened linseed oil finish.",
-    image: "images/hook.jpg"
-  },
-  {
-    id: 7,
     title: "Custom Propane Gas Forge",
     category: "Blacksmithing",
     year: "2022",
@@ -77,7 +65,7 @@ var HOBBY_PROJECTS = [
     image: "images/forge.jpg"
   },
   {
-    id: 8,
+    id: 6,
     title: "Engraved Wooden Stovetop Cover",
     category: "Woodworking",
     year: "2022",
@@ -85,31 +73,7 @@ var HOBBY_PROJECTS = [
     image: "images/stove_cover.jpg"
   },
   {
-    id: 9,
-    title: "Laser-Cut Food Bag Dispenser",
-    category: "Woodworking",
-    year: "2023",
-    description: "Laser cut and engraved kitchen organizer with dedicated slotted dispenser compartments for various kitchen storage bags.",
-    image: "images/bag_holder.jpg"
-  },
-  {
-    id: 10,
-    title: "Acoustic Alignment & Speaker Mount",
-    category: "3D Printing",
-    year: "2019",
-    description: "Rotation project: Custom-modeled and 3D printed fixture designed to align KEF coaxial speakers using integrated laser pointers.",
-    image: "images/speaker_aligner.jpg"
-  },
-  {
-    id: 11,
-    title: "Candle Lantern Centerpiece",
-    category: "3D Printing",
-    year: "2025",
-    description: "Decorative lantern designed and printed for use as a table centerpiece at my sister's wedding.",
-    image: "images/lantern.jpg"
-  },
-  {
-    id: 12,
+    id: 7,
     title: "LightSound Eclipse Sonification Device",
     category: "Maker / Electronics",
     year: "2022",
@@ -117,7 +81,31 @@ var HOBBY_PROJECTS = [
     image: "images/eclipse_device.jpg"
   },
   {
-    id: 13,
+    id: 8,
+    title: "Hand-Forged Steel Rose Sculpture",
+    category: "Blacksmithing",
+    year: "2023",
+    description: "Floral centerpiece with textured and shaped rose petals mounted on an organic stem with leaves, a candle holder, and a scrolled tripod base. Made at the Rochester Arc and Flame Center.",
+    image: "images/flower_centerpiece.jpg"
+  },
+  {
+    id: 9,
+    title: "Treble Clef Wall Hook",
+    category: "Blacksmithing",
+    year: "2023",
+    description: "Hand-forged decorative wall hook in the shape of a treble clef.",
+    image: "images/music_hook.jpg"
+  },
+  {
+    id: 10,
+    title: "Laser-Cut Food Bag Dispenser",
+    category: "Woodworking",
+    year: "2023",
+    description: "Laser cut and engraved kitchen organizer with dedicated slotted dispenser compartments for various kitchen storage bags.",
+    image: "images/bag_holder.jpg"
+  },
+  {
+    id: 11,
     title: "Custom-Built PC",
     category: "Maker / Electronics",
     year: "2023",
@@ -125,12 +113,28 @@ var HOBBY_PROJECTS = [
     image: "images/pc.jpg"
   },
   {
+    id: 12,
+    title: "Hand-Forged Knives",
+    category: "Blacksmithing",
+    year: "2025",
+    description: "Shaped at the anvil, refined and sharpened on belt grinders, and heat-treated using a coal forge. Made during a blacksmithing workshop at the Michigan Folk School.",
+    image: "images/knives.jpg"
+  },
+  {
+    id: 13,
+    title: "Candle Lantern Centerpiece",
+    category: "3D Printing",
+    year: "2025",
+    description: "Decorative lantern designed and printed for use as a table centerpiece at my sister's wedding.",
+    image: "images/lantern.jpg"
+  },
+  {
     id: 14,
-    title: "Wearable Eye-Tracking Glasses",
-    category: "Maker / Electronics",
-    year: "2018",
-    description: "Biomedical engineering capstone project: designed, printed, and assembled a low-cost, wearable, lensless-glasses system with integrated camera and LED for real-time pupillometry to assess locked-in syndrome.",
-    image: "images/senior_design.jpeg"
+    title: "Forged Steel Bottle Opener",
+    category: "Blacksmithing",
+    year: "2026",
+    description: "Bottle opener with drawn tapered handle, punched and drifted eye ring, and my maker's touchmark stamp.",
+    image: "images/bottle_opener.jpg"
   },
   {
     id: 15,
