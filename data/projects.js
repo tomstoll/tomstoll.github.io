@@ -31,7 +31,12 @@ const FEATURED_PROJECT = {
     "Auditory Modeling"
   ],
   // Add links here when ready (e.g. preprint, repo):
-  links: []
+  links: [
+    {
+     label: "arXiv",
+     url: "https://doi.org/10.48550/arXiv.2609.20595"
+    }
+  ]
 };
 
 const CORE_PROJECTS = [
