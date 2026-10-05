@@ -126,6 +126,14 @@ const CORE_PROJECTS = [
 
 const PUBLICATIONS = [
   {
+    title: "A Deep Neural Network for Predicting Continuous Human EEG Across the Auditory Pathway in Response to Sound",
+    authors: "Stoll, T. J., & Maddox, R. K.",
+    year: "2026",
+    journal: "arXiv preprint",
+    doi: "10.48550/arXiv.2609.20595",
+    url: "https://doi.org/10.48550/arXiv.2609.20595"
+  },
+  {
     title: "The auditory brainstem response to natural speech is not affected by selective attention",
     authors: "Stoll, T. J., Vandjelovic, N. D., Polonenko, M. J., Li, N. R., Lee, A. K., & Maddox, R. K.",
     year: "2025",
@@ -141,12 +149,4 @@ const PUBLICATIONS = [
     doi: "10.1007/s10162-024-00959-w",
     url: "https://doi.org/10.1007/s10162-024-00959-w"
   },
-  {
-    title: "Enhanced Place Specificity of the Parallel Auditory Brainstem Response: A Modeling Study",
-    authors: "Stoll, T. J., & Maddox, R. K.",
-    year: "2023",
-    journal: "Trends in Hearing",
-    doi: "10.1177/23312165231205719",
-    url: "https://doi.org/10.1177/23312165231205719"
-  }
 ];
