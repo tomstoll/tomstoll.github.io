@@ -60,7 +60,7 @@
       linkedin: "https://www.linkedin.com/in/thomas-stoll",
       github: "https://github.com/tomstoll",
       scholar: "https://scholar.google.com/citations?user=wQjb1rsAAAAJ&hl=en",
-      cv: "CV.pdf",
+      cv: "Stoll_CV.pdf",
       vcard: "contact.vcf",
       sideProjects: isLocal ? "hobbies/index.html" : "hobbies/",
       sideProjectsLabel: "Beyond the Lab" // Edit label here to update all instances
@@ -282,13 +282,15 @@
     <section class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
       <div class="shrink-0">
         <!-- Clean headshot with generic avatar fallback -->
-        <div class="w-36 h-36 md:w-44 md:h-44 rounded-2xl bg-slate-100 dark:bg-slate-800 shadow-md ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex items-center justify-center relative">
+        <div
+          class="w-36 h-36 md:w-44 md:h-44 rounded-2xl bg-slate-100 dark:bg-slate-800 shadow-md ring-1 ring-slate-200 dark:ring-slate-800 overflow-hidden flex items-center justify-center relative">
           <!-- Generic Outlook-style person silhouette fallback -->
-          <svg class="w-20 h-20 md:w-24 md:h-24 text-slate-400 dark:text-slate-500 absolute" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          <svg class="w-20 h-20 md:w-24 md:h-24 text-slate-400 dark:text-slate-500 absolute" fill="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
           </svg>
-          <img src="headshot.jpg" alt="Thomas J. Stoll"
-            onerror="this.style.display='none'"
+          <img src="headshot.jpg" alt="Thomas J. Stoll" onerror="this.style.display='none'"
             class="w-full h-full object-cover relative z-10" />
         </div>
       </div>
@@ -451,7 +453,8 @@
         <a data-link="sideProjects" class="hover:underline text-brand-600 dark:text-brand-400 font-medium">
           <span data-label="sideProjectsLabel">Side Projects</span>
         </a>
-        · Ann Arbor, Michigan · <a href="https://maddoxlab.org" target="_blank" rel="noopener" class="hover:underline text-brand-600 dark:text-brand-400 font-medium">Maddox Laboratory</a>
+        · Ann Arbor, Michigan · <a href="https://maddoxlab.org" target="_blank" rel="noopener"
+          class="hover:underline text-brand-600 dark:text-brand-400 font-medium">Maddox Laboratory</a>
       </p>
     </div>
   </footer>
