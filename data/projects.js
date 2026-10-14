@@ -30,11 +30,10 @@ const FEATURED_PROJECT = {
     "Biosignals",
     "Auditory Modeling"
   ],
-  // Add links here when ready (e.g. preprint, repo):
   links: [
     {
-     label: "arXiv",
-     url: "https://doi.org/10.48550/arXiv.2609.20595"
+      label: "arXiv",
+      url: "https://doi.org/10.48550/arXiv.2609.20595"
     }
   ]
 };
