@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Clean solid brand squircle without border lines -->
+  <rect width="64" height="64" rx="15" fill="#0284c7" />
+
+  <!-- Clean, SemiBold TS matching the PNG lineweight -->
+  <text x="32" y="44"
+        text-anchor="middle"
+        fill="#ffffff"
+        font-family="'Segoe UI', -apple-system, system-ui, sans-serif"
+        font-weight="600"
+        font-size="33"
+        letter-spacing="-0.5">TS</text>
+</svg>

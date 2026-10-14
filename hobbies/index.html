@@ -14,6 +14,12 @@
   <meta property="og:url" content="https://tomstoll.com/hobbies/" />
   <meta property="og:type" content="website" />
 
+  <!-- Favicon (Touchmark Emblem in Smoldering Ember #aa481e) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+
   <!-- Tailwind CSS CDN configured with media-query dark mode -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,10 +29,25 @@
         extend: {
           colors: {
             brand: {
-              400: '#38bdf8',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
+              50: '#fdf6f0',
+              100: '#faebd7',
+              200: '#f6d5be',
+              300: '#f0b392',
+              400: '#eb7e46', // Warm amber / burnt orange highlight (dark mode contrast)
+              500: '#c65924',
+              600: '#aa481e', // Signature touchmark burnt orange
+              700: '#8c3815', // Deep forge rust (hover / active)
+              800: '#6f2b10',
+              900: '#53200c',
+              950: '#341206',
+            },
+            // Dark gray overrides for dark mode (replaces cool navy-slate with warm workshop charcoal)
+            slate: {
+              750: '#222327',
+              800: '#31343c', // Card & container borders, hover backgrounds
+              850: '#1f2024',
+              900: '#22242a', // Card surfaces, sticky header, modal backgrounds
+              950: '#1a1b1e', // Deep rich charcoal page background (softer than jet-black)
             }
           }
         }

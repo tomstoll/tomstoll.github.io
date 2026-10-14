@@ -14,6 +14,13 @@
   <meta property="og:url" content="https://tomstoll.com" />
   <meta property="og:type" content="website" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+
   <!-- Tailwind CSS CDN configured with media-query dark mode -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -268,9 +275,10 @@
       <a href="#" class="font-bold text-slate-900 dark:text-white tracking-tight text-lg">tomstoll.com</a>
       <div class="flex items-center gap-2 md:gap-3">
         <a data-link="sideProjects"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
-          <span data-label="sideProjectsLabel">Side Projects</span>
+          class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-[#aa481e] dark:hover:text-[#eb7e46] rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <img src="hobbies/icons/apple-touch-icon.png" alt=""
+            class="w-4 h-4 rounded-[4px] shrink-0 object-contain shadow-xs" />
+          <span data-label="sideProjectsLabel">Beyond the Lab</span>
         </a>
       </div>
     </div>
@@ -300,7 +308,8 @@
           <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Thomas J. Stoll,
             Ph.D.</h1>
           <p class="text-brand-600 dark:text-brand-400 font-semibold text-base md:text-lg mt-1">
-            Postdoctoral Research Fellow · Maddox Lab, University of Michigan
+            Postdoctoral Research Fellow · <a href="https://maddoxlab.org" target="_blank" rel="noopener"
+              class="group inline-flex items-baseline"><span class="group-hover:underline">Maddox Lab</span><sup class="ml-0.5"><i data-lucide="external-link" class="w-2.5 h-2.5 inline-block opacity-75 group-hover:opacity-100 transition"></i></sup></a>, University of Michigan
           </p>
         </div>
 
@@ -450,10 +459,7 @@
       <p>© 2026 Thomas J. Stoll, Ph.D. Hosted via GitHub Pages on <a href="https://tomstoll.com"
           class="text-brand-600 dark:text-brand-400 font-medium">tomstoll.com</a></p>
       <p>
-        <a data-link="sideProjects" class="hover:underline text-brand-600 dark:text-brand-400 font-medium">
-          <span data-label="sideProjectsLabel">Side Projects</span>
-        </a>
-        · Ann Arbor, Michigan · <a href="https://maddoxlab.org" target="_blank" rel="noopener"
+        Ann Arbor, Michigan · <a href="https://maddoxlab.org" target="_blank" rel="noopener"
           class="hover:underline text-brand-600 dark:text-brand-400 font-medium">Maddox Laboratory</a>
       </p>
     </div>
